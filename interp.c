@@ -26,13 +26,13 @@ read_file(const char *filename, char **buffer, size_t *len)
     }
 
     fseek(f, 0, SEEK_END);
-    ssize_t length = ftell(f);
+    long length = ftell(f);
     fseek(f, 0, SEEK_SET);
     *buffer = malloc(length);
     if (!*buffer)
         return 1;
 
-    if (fread(*buffer, 1, length, f) == -1) {
+    if (fread(*buffer, 1, length, f) != (size_t)length) {
         free(*buffer);
         return 1;
     }
